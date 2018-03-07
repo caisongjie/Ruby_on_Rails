@@ -1,13 +1,12 @@
 class LineitemsController < ApplicationController
- 
- include CurrentCart
- before_action :set_cart
- before_action :set_lineitem, only: [:show, :edit, :update, :destroy] 
- # GET /line_items 
- # GET /line_items.json 
- def index
- @lineitems = Lineitem.all 
- end
+  include CurrentCart
+  before_action :set_cart
+  before_action :set_lineitem, only: [:show, :edit, :update, :destroy] 
+  # GET /line_items 
+  # GET /line_items.json 
+  def index
+    @lineitems = Lineitem.all 
+  end
 
   # GET /lineitems/1
   # GET /lineitems/1.json
@@ -26,21 +25,21 @@ class LineitemsController < ApplicationController
   # POST /lineitems
   # POST /lineitems.json
   def create
- product = Product.find(params[:product_id])
- @line_item = @cart.add_item(product.id)
- #@line_item = LineItem.new(line_item_params)
- respond_to do |format|
- if @line_item.save
- format.html { redirect_to shopper_url }
- format.js
- format.json { render :show, status: :created, location: @line_item }
- else
- format.html { render :new }
- format.json { render json: @line_item.errors, status: :unprocessable_entity }
- end
- end
- redirect_to shopper_url
- end
+    product = Product.find(params[:product_id])
+    @line_item = @cart.add_item(product.id)
+    #@line_item = LineItem.new(line_item_params)
+    respond_to do |format|
+      if @line_item.save
+        format.html { redirect_to shopper_url }
+        format.js
+        format.json { render :show, status: :created, location: @line_item }
+      else
+        format.html { render :new }
+        format.json { render json: @line_item.errors, status: :unprocessable_entity }
+      end
+    end
+    redirect_to shopper_url
+  end
 
   # PATCH/PUT /lineitems/1
   # PATCH/PUT /lineitems/1.json
@@ -76,5 +75,4 @@ class LineitemsController < ApplicationController
     def lineitem_params
       params.require(:lineitem).permit(:product_id, :cart_id)
     end
-
 end
